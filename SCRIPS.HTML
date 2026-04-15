@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Meu Perfil</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: linear-gradient(180deg, #1a1b4b,#2c3fc7);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* FOTO */
+.profile img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+/* BOTÕES PREMIUM */
+.btn {
+  display: block;
+  margin: 12px 0;
+  padding: 15px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  background: white;
+  color: #2c3fc7;
+}
+
+/* LISTA */
+.lista {
+  display: none;
+  animation: slideDown 0.4s ease;
+}
+
+/* ITEM */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.item:hover {
+  transform: translateX(5px);
+  background: rgba(255,255,255,0.2);
+}
+
+/* IMAGENS */
+.img-lista {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+}
+
+.img-detalhe {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+/* CARD */
+.card {
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  animation: fadeUp 0.4s ease;
+}
+
+/* BATERIA */
+.bateria-box {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  background: linear-gradient(90deg,#00ffcc,#00ccff);
+  color: black;
+  font-weight: bold;
+}
+
+/* BOTÃO */
+button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+/* INFO */
+.info {
+  margin-top: 20px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ANIMAÇÕES */
+@keyframes fadeUp {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+@keyframes slideDown {
+  from {opacity:0; transform:translateY(-10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="profile">
+    <img src="IMG-20230712-WA0060.jpg">
+    <h1>Francisco de assis</h1>
+    <p>PROMOTOR</p>
+  </div>
+
+  <a class="btn" href="https://wa.me/5571987433761" target="_blank">
+    📱 WhatsApp
+  </a>
+
+  <div class="btn" onclick="toggleModelos()">
+    📱 modelos de celulares
+  </div>
+
+  <div id="modelos" class="lista"></div>
+
+  <div id="detalhes" style="display:none;"></div>
+
+  <div class="btn" onclick="mostrarBateria()">
+    🔋 bateria
+  </div>
+
+  <div class="info">
+    <p id="device"></p>
+    <p id="battery"></p>
+  </div>
+
+</div>
+
+<script>
+let celularSelecionado = null;
+
+const celulares = [
+  {
+    nome: "Y19S",
+    tela: "6.68 polegadas",
+    bateria: "5500mAh",
+    duracao: "1  dias",
+    camera: "50MP",
+    frontal: "5MP",
+    ram: "4+4GB",
+    armazenamento: "128GB",
+    rede: "4G",
+    imagem: "y19s.webp"
+  },
+  {
+    nome: "Y29",
+    tela: "6.68 polegadas",
+    bateria: "6500mAh",
+    duracao: "1 a 2 dias",
+    camera: "50MP",
+    frontal: "8MP",
+    ram: "8+8GB",
+    armazenamento: "256GB",
+    rede: "4G",
+    imagem: "y29.avif"
+  },
+  {
+    nome: "V70",
+    tela: "6.83 polegadas",
+    bateria: "7000mAh",
+    duracao: "2 a 3 dias",
+    camera: "200MP",
+    frontal: "32MP",
+    ram: "8+8GB",
+    armazenamento: "256 até 512GB",
+    rede: "5G",
+    imagem: "v70.webp"
+  },
+  {
+    nome: "Y31",
+    tela: "6.75 polegadas",
+    bateria: "7200mAh",
+    duracao: "2 a 3 dias",
+    camera: "50MP",
+    frontal: "32MP",
+    ram: "8+8GB",
+    armazenamento: "256 até 512GB",
+    rede: "4G",
+    imagem: "y31.webp"
+  },
+  {
+    nome: "Y21",
+    tela: "6.68 polegadas",
+    bateria: "6500mAh",
+    duracao: "1 a 2 dias",
+    camera: "50MP",
+    frontal: "5MP",
+    ram: "4+4GB",
+    armazenamento: "128 até 256GB",
+    rede: "4G",
+    imagem: "y21.webp"
+  }
+];
+
+function carregarModelos() {
+  const lista = document.getElementById("modelos");
+  lista.innerHTML = "";
+
+  celulares.forEach((cel, index) => {
+    const item = document.createElement("div");
+    item.className = "item";
+
+    item.innerHTML = `
+      <img src="${cel.imagem}" class="img-lista">
+      <span>📱 ${cel.nome}</span>
+    `;
+
+    item.onclick = () => {
+      abrirDetalhes(index);
+
+      document.querySelectorAll(".item")
+        .forEach(el => el.style.border = "1px solid rgba(255,255,255,0.2)");
+
+      item.style.border = "2px solid #00ffcc";
+    };
+
+    lista.appendChild(item);
+  });
+}
+
+function toggleModelos() {
+  const lista = document.getElementById("modelos");
+  lista.style.display =
+    (lista.style.display === "block") ? "none" : "block";
+}
+
+function scrollSuave() {
+  document.getElementById("detalhes")
+    .scrollIntoView({ behavior: "smooth" });
+}
+
+function abrirDetalhes(index) {
+  const cel = celulares[index];
+  celularSelecionado = cel;
+
+  document.getElementById("detalhes").innerHTML = `
+    <div class="card">
+      <img src="${cel.imagem}" class="img-detalhe">
+      <h2>📱 ${cel.nome}</h2>
+      <p><b>Tela:</b> ${cel.tela}</p>
+      <p><b>Bateria:</b> ${cel.bateria}</p>
+      <p><b>Câmera:</b> ${cel.camera}</p>
+      <p><b>Frontal:</b> ${cel.frontal}</p>
+      <p><b>RAM:</b> ${cel.ram}</p>
+      <p><b>Armazenamento:</b> ${cel.armazenamento}</p>
+      <p><b>Rede:</b> ${cel.rede}</p>
+      <br>
+      <button onclick="fecharDetalhes()">⬅ Voltar</button>
+    </div>
+  `;
+
+  document.getElementById("detalhes").style.display = "block";
+  scrollSuave();
+}
+
+function mostrarBateria() {
+  if (!celularSelecionado) {
+    alert("Selecione um celular primeiro 📱");
+    return;
+  }
+
+  document.getElementById("detalhes").innerHTML = `
+    <div class="card">
+      <img src="${celularSelecionado.imagem}" class="img-detalhe">
+      <h2>🔋 ${celularSelecionado.nome}</h2>
+
+      <div class="bateria-box">
+        🔋 ${celularSelecionado.bateria}<br>
+        ⏳ ${celularSelecionado.duracao}
+      </div>
+
+      <br>
+      <button onclick="fecharDetalhes()">⬅ Voltar</button>
+    </div>
+  `;
+
+  document.getElementById("detalhes").style.display = "block";
+  scrollSuave();
+}
+
+function fecharDetalhes() {
+  document.getElementById("detalhes").style.display = "none";
+}
+
+carregarModelos();
+
+// INFO DISPOSITIVO
+document.getElementById("device").innerText =
+  "📱 Dispositivo: " + navigator.userAgent;
+
+// BATERIA REAL
+if (navigator.getBattery) {
+  navigator.getBattery().then(function(battery) {
+    function updateBattery() {
+      let level = Math.round(battery.level * 100);
+      document.getElementById("battery").innerText =
+        "🔋 REI DA BATERIA: " + level + "%";
+    }
+    updateBattery();
+    battery.addEventListener("levelchange", updateBattery);
+  });
+}
+</script>
+
+</body>
+</html>
